@@ -1,6 +1,9 @@
 /**
  * Here you can define helper functions to use across your app.
  */
+
+
+
 /**
  * 
  * @param {string} apiUrl  a http url string 
@@ -27,7 +30,26 @@
  // maybe a loop is a better solution to the problem ?
  }
 
+ /**
+  *  retrives planets from swapi;
+  *  the while loop is used to deal with the pagination of the api
+  */
+ async function getPlanets(){
+    const response = await fetch("https://swapi.dev/api/planets/"); // query the api
+    let { next , results, count } = await response.json();
+    let sumArr = [...results];
+  
+   while(next){
+     const query = await fetch(next);
+      const{next: newNext , results: newResults} = await query.json(); // get the next url we need to query to
+      sumArr =[ ...sumArr,...newResults]; // add the results to the array
+      next = newNext;
+   }
+    return [count,sumArr];  // return the count of the planets and the array of planet objects
+ }
+
 
  module.exports = {
-     getPlanetsFromSwapi
+     getPlanetsFromSwapi,
+     getPlanets
  }
