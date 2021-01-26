@@ -1,6 +1,6 @@
 import config from '../config';
 import EventEmitter from 'eventemitter3';
-import { getPlanetsFromSwapi} from "./utils";
+import { getPlanetsFromSwapi, getPlanets} from "./utils";
 
 
 
@@ -35,10 +35,17 @@ export default class Application extends EventEmitter {
    */
   async init() {
     // Initiate classes and wait for async operations here.
-    [this.data.count, this.data.planets] = await getPlanetsFromSwapi("https://swapi.dev/api/planets/",[]);
-    // see utils for explenation of the getPlanetsFromSwapi function
-   
-    this.emit(Application.events.APP_READY);
+  //   console.log("this may take a while ..");
+  //   [this.data.count, this.data.planets] = await getPlanetsFromSwapi("https://swapi.dev/api/planets/",[]);
+  //   console.log(this.data);
+  //   // see utils for explenation of the getPlanetsFromSwapi function
+  //   console.log("test");
+  //  console.log("emitting ..")
+ console.log(this.data);
+ console.log("calling function ..");
+  [this.data.count, this.data.planets] =  await getPlanets();
+  console.log(this.data);
+  this.emit(Application.events.APP_READY);
   }
 }
 
